@@ -1,0 +1,19 @@
+professors:
+
+  - name: Appolo Tankeh
+    department: Computer Science
+    office: CS108
+    email: atankeh@bowiestate.edu
+    specialty:
+      - Software Engineering
+      - UML
+      - Testing
+
+  - name: Anthony Adedoyin
+    department: Cybersecurity
+    office: CS201
+    email: aadedoyin@bowiestate.edu
+    specialty:
+      - Linux
+      - Networks
+      - Security
