@@ -1,36 +1,58 @@
+from pathlib import Path
 import yaml
 
-# Load YAML file
-with open("data/professors.yaml", "r") as file:
-    data = yaml.safe_load(file)
 
-# Create professors.pl
-with open("prolog/professors.pl", "w") as output:
+# Get the project root directory
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-    for professor in data["professors"]:
+# Define file paths
+yaml_path = PROJECT_ROOT / "data" / "professors.yaml"
+prolog_path = PROJECT_ROOT / "prolog" / "professors.pl"
 
-        name = professor["name"]
 
-        output.write(
-            f'professor("{name}").\n'
-        )
+def prolog_string(value):
+    """Convert a Python value into a safely quoted Prolog string."""
+    if value is None:
+        value = ""
 
-        output.write(
-            f'department("{name}","{professor["department"]}").\n'
-        )
+    value = str(value)
+    value = value.replace("\\", "\\\\").replace('"', '\\"')
+    value = value.replace("\n", "\\n").replace("\r", "\\r")
 
-        output.write(
-            f'office("{name}","{professor["office"]}").\n'
-        )
+    return f'"{value}"'
 
-        output.write(
-            f'email("{name}","{professor["email"]}").\n'
-        )
 
-        for specialty in professor["specialty"]:
+# Load professor information
+with open(yaml_path, "r", encoding="utf-8") as file:
+    data = yaml.safe_load(file) or {}
 
+professors = data.get("professors", [])
+
+# Generate professors.pl
+with open(prolog_path, "w", encoding="utf-8") as output:
+    output.write(":- multifile professor/1.\n")
+    output.write(":- multifile department/2.\n")
+    output.write(":- multifile office/2.\n")
+    output.write(":- multifile email/2.\n")
+    output.write(":- multifile specialty/2.\n\n")
+
+    for professor in professors:
+        name = prolog_string(professor.get("name"))
+        department = prolog_string(professor.get("department"))
+        office = prolog_string(professor.get("office"))
+        email = prolog_string(professor.get("email"))
+
+        output.write(f"professor({name}).\n")
+        output.write(f"department({name},{department}).\n")
+        output.write(f"office({name},{office}).\n")
+        output.write(f"email({name},{email}).\n")
+
+        for specialty in professor.get("specialty", []):
             output.write(
-                f'specialty("{name}","{specialty}").\n'
+                f"specialty({name},{prolog_string(specialty)}).\n"
             )
 
-print("Generated prolog/professors.pl")
+        output.write("\n")
+
+print(f"Generated {prolog_path}")
+print(f"Processed {len(professors)} professors.")
