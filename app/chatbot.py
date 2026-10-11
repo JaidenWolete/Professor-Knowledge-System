@@ -8,6 +8,14 @@ prolog.consult("prolog/schedule.pl")
 prolog.consult("prolog/syllabus.pl")
 prolog.consult("prolog/rules.pl")
 
+
+def clean(value):
+    """Convert PySwip byte strings to normal text."""
+    if isinstance(value, bytes):
+        return value.decode("utf-8")
+    return str(value)
+
+
 print("Professor Knowledge Expert System")
 
 while True:
@@ -21,8 +29,9 @@ while True:
     elif question.lower() == "list professors":
 
         print("\nProfessors:")
+
         for result in prolog.query("professor(X)"):
-            print("-", result["X"])
+            print("-", clean(result["X"]))
 
     elif question.lower().startswith("who teaches"):
 
@@ -37,7 +46,7 @@ while True:
         for result in prolog.query(
             f'course_professor("{course}", X)'
         ):
-            print("Professor:", result["X"])
+            print("Professor:", clean(result["X"]))
             found = True
 
         if not found:
@@ -57,7 +66,7 @@ while True:
         for result in prolog.query(
             f'course_room("{course}", X)'
         ):
-            print("Room:", result["X"])
+            print("Room:", clean(result["X"]))
             found = True
 
         if not found:
@@ -77,7 +86,7 @@ while True:
         for result in prolog.query(
             f'course_days("{course}", X)'
         ):
-            print("Days:", result["X"])
+            print("Days:", clean(result["X"]))
             found = True
 
         if not found:
@@ -98,7 +107,7 @@ while True:
         for result in prolog.query(
             f'professor_email("{professor}", X)'
         ):
-            print("Email:", result["X"])
+            print("Email:", clean(result["X"]))
             found = True
 
         if not found:
@@ -119,7 +128,7 @@ while True:
         for result in prolog.query(
             f'professor_office("{professor}", X)'
         ):
-            print("Office:", result["X"])
+            print("Office:", clean(result["X"]))
             found = True
 
         if not found:
@@ -140,7 +149,7 @@ while True:
         for result in prolog.query(
             f'professor_specialty("{professor}", X)'
         ):
-            print("Specialty:", result["X"])
+            print("Specialty:", clean(result["X"]))
             found = True
 
         if not found:
