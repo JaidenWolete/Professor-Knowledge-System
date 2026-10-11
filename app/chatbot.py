@@ -10,7 +10,6 @@ prolog.consult("prolog/rules.pl")
 
 
 def clean(value):
-    """Convert PySwip byte strings to normal text."""
     if isinstance(value, bytes):
         return value.decode("utf-8")
     return str(value)
@@ -30,15 +29,39 @@ while True:
 
         print("\nProfessors:")
 
+        seen = set()
+
         for result in prolog.query("professor(X)"):
-            print("-", clean(result["X"]))
+
+            professor = clean(result["X"])
+
+            if professor not in seen:
+                seen.add(professor)
+                print("-", professor)
+
+    elif question.lower() == "list courses":
+
+        print("\nCourses:")
+
+        seen = set()
+
+        for result in prolog.query("course(X,Y)"):
+
+            course_id = clean(result["X"])
+            title = clean(result["Y"])
+
+            course = f"{course_id} : {title}"
+
+            if course not in seen:
+                seen.add(course)
+                print("-", course)
 
     elif question.lower().startswith("who teaches"):
 
         course = (
             question.replace("Who teaches", "")
-                    .replace("?", "")
-                    .strip()
+            .replace("?", "")
+            .strip()
         )
 
         found = False
@@ -52,13 +75,33 @@ while True:
         if not found:
             print("Course not found.")
 
+    elif question.lower().startswith("who is the instructor for"):
+
+        course = (
+            question.replace("Who is the instructor for", "")
+            .replace("?", "")
+            .replace(" ", "")
+            .strip()
+        )
+
+        found = False
+
+        for result in prolog.query(
+            f'course_instructor("{course}", X)'
+        ):
+            print("Instructor:", clean(result["X"]))
+            found = True
+
+        if not found:
+            print("Instructor not found.")
+
     elif question.lower().startswith("what room is"):
 
         course = (
             question.replace("What room is", "")
-                    .replace("in?", "")
-                    .replace("?", "")
-                    .strip()
+            .replace("in?", "")
+            .replace("?", "")
+            .strip()
         )
 
         found = False
@@ -76,9 +119,9 @@ while True:
 
         course = (
             question.replace("What days does", "")
-                    .replace("meet?", "")
-                    .replace("?", "")
-                    .strip()
+            .replace("meet?", "")
+            .replace("?", "")
+            .strip()
         )
 
         found = False
@@ -92,14 +135,36 @@ while True:
         if not found:
             print("Days not found.")
 
+    elif question.lower().startswith("which courses does"):
+
+        professor = (
+            question.replace("Which courses does", "")
+            .replace("teach?", "")
+            .replace("?", "")
+            .strip()
+        )
+
+        found = False
+
+        print("\nCourses:")
+
+        for result in prolog.query(
+            f'professor_course("{professor}", X)'
+        ):
+            print("-", clean(result["X"]))
+            found = True
+
+        if not found:
+            print("No courses found.")
+
     elif "email" in question.lower():
 
         professor = (
             question.replace("What is", "")
-                    .replace("'s email", "")
-                    .replace("email", "")
-                    .replace("?", "")
-                    .strip()
+            .replace("'s email", "")
+            .replace("email", "")
+            .replace("?", "")
+            .strip()
         )
 
         found = False
@@ -117,10 +182,10 @@ while True:
 
         professor = (
             question.replace("What is", "")
-                    .replace("'s office", "")
-                    .replace("office", "")
-                    .replace("?", "")
-                    .strip()
+            .replace("'s office", "")
+            .replace("office", "")
+            .replace("?", "")
+            .strip()
         )
 
         found = False
@@ -138,18 +203,20 @@ while True:
 
         professor = (
             question.replace("What is", "")
-                    .replace("'s specialty", "")
-                    .replace("specialty", "")
-                    .replace("?", "")
-                    .strip()
+            .replace("'s specialty", "")
+            .replace("specialty", "")
+            .replace("?", "")
+            .strip()
         )
 
         found = False
 
+        print("\nSpecialties:")
+
         for result in prolog.query(
             f'professor_specialty("{professor}", X)'
         ):
-            print("Specialty:", clean(result["X"]))
+            print("-", clean(result["X"]))
             found = True
 
         if not found:
