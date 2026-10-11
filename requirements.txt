@@ -1,0 +1,5 @@
+pyswip
+pandas
+openpyxl
+pyyaml
+python-docx

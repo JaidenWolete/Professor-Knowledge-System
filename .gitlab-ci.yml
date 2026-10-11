@@ -1,0 +1,13 @@
+image: python:3.11
+
+stages:
+  - test
+
+test-job:
+  stage: test
+
+  before_script:
+    - pip install -r requirements.txt
+
+  script:
+    - echo "Project dependencies installed successfully"
