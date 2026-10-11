@@ -2,54 +2,56 @@ Professor Knowledge Expert System
 
 COSC 369 Midterm Project
 
-Description
+Description:
 
 This project is a knowledge-based expert system that uses:
 
-Python
-SWI-Prolog
-PySwip
-YAML
-Excel
-DOCX
-GitLab
+- Python
+- SWI-Prolog
+- PySwip
+- YAML
+- Excel
+- DOCX
+- GitLab
+
 The system reads data from multiple sources and converts the information into Prolog facts that can be queried by users.
 
-Data Sources
+Data Sources:
 
-YAML
+- YAML
 
 Stores professor information:
 
-Name
-Office
-Email
-Specialty
-Excel Schedule
+- Name
+- Office
+- Email
+- Specialty
+- Excel Schedule
 
 Stores:
 
-Course IDs
-Course Titles
-Professors
-Rooms
-Meeting Days
-Meeting Times
-Syllabus
+- Course IDs
+- Course Titles
+- Professors
+- Rooms
+- Meeting Days
+- Meeting Times
+- Syllabus
 
 Stores:
 
-Instructor Information
-Office Hours
-Course Information
-Weekly Topics
-Project Structure
+- Instructor Information
+- Office Hours
+- Course Information
+- Weekly Topics
 
-app/
-data/
-parser/
-prolog/
+Project Structure:
 
-README.md
-requirements.txt
-.gitlab-ci.yml
+- app/
+- data/
+- parser/
+- prolog/
+
+- README.md
+- requirements.txt
+- .gitlab-ci.yml
