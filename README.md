@@ -1,57 +1,162 @@
-Professor Knowledge Expert System
+# Professor Knowledge Expert System
 
-COSC 369 Midterm Project
+**COSC 369 — Midterm Project**
 
-Description:
+## Project Description
 
-This project is a knowledge-based expert system that uses:
+The Professor Knowledge Expert System is a knowledge-based application that uses Python and SWI-Prolog to organize and retrieve information about professors, courses, schedules, and syllabi.
 
-- Python
-- SWI-Prolog
-- PySwip
-- YAML
-- Excel
-- DOCX
-- GitLab
+The system collects information from multiple data sources, converts the information into Prolog facts, and allows users to ask questions through an interactive Python chatbot.
 
-The system reads data from multiple sources and converts the information into Prolog facts that can be queried by users.
+## Technologies Used
 
-Data Sources:
+- **Python**
+- **SWI-Prolog** 
+- **PySwip** 
+- **YAML** 
+- **Excel** 
+- **DOCX** 
+- **GitLab** 
 
-- YAML
+## Features
 
-Stores professor information:
+The system is designed to support questions about:
 
-- Name
-- Office
-- Email
-- Specialty
-- Excel Schedule
+- Professors and their information
+- Courses taught by professors
+- Instructors assigned to courses
+- Course meeting days and times
+- Classroom locations
+- Professor office hours, when available in the knowledge base
+- Course information and weekly topics, when available in the knowledge base
 
-Stores:
+The answers depend on the information extracted from the source files and loaded into the Prolog knowledge base.
+
+## Data Sources
+
+### 1. Professor Information (YAML)
+
+The professor data file stores information such as:
+
+- Professor names
+- Office locations
+- Email addresses
+- Areas of specialty
+
+### 2. Course Schedule (Excel)
+
+The course schedule contains information such as:
 
 - Course IDs
-- Course Titles
-- Professors
-- Rooms
-- Meeting Days
-- Meeting Times
-- Syllabus
+- Course titles
+- Assigned professors
+- Classroom locations
+- Meeting days
+- Meeting times
 
-Stores:
+### 3. Course Syllabus (DOCX)
 
-- Instructor Information
-- Office Hours
-- Course Information
-- Weekly Topics
+The syllabus documents may contain:
 
-Project Structure:
+- Instructor information
+- Office hours
+- Course descriptions and information
+- Weekly topics
 
-- app/
-- data/
-- parser/
-- prolog/
+## Project Structure
 
-- README.md
-- requirements.txt
-- .gitlab-ci.yml
+```text
+professor-knowledge-system/
+├── app/
+│   └── chatbot.py
+├── data/
+│   ├── professors.yaml
+│   ├── CTEC Fall 2026 Schedule - Share (2).xlsx
+│   └── syllabus documents
+├── parser/
+│   ├── schedule_parser.py
+│   ├── syllabus_parser.py
+│   └── yaml_parser.py
+├── prolog/
+│   ├── professors.pl
+│   ├── schedule.pl
+│   ├── syllabus.pl
+│   └── rules.pl
+├── test_prolog.py
+├── requirements.txt
+├── .gitignore
+├── .gitlab-ci.yml
+└── README.md
+```
+
+## Requirements
+
+The project requires:
+
+- Python 3
+- SWI-Prolog
+- PySwip
+- The Python packages listed in `requirements.txt`
+
+## Installation
+
+### 1. Install SWI-Prolog
+
+Install SWI-Prolog for your operating system. PySwip requires a compatible SWI-Prolog installation.
+
+### 2. Create and activate a virtual environment
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install Python dependencies
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## Running the Application
+
+From the root directory of the project, run:
+
+```bash
+python3 app/chatbot.py
+```
+
+The chatbot will load the Prolog knowledge base and prompt the user to enter a question.
+
+Type `quit` or `exit` to close the application.
+
+## Example Questions
+
+Users can try questions such as:
+
+- Which courses does Anthony Adedoyin teach?
+- Which courses does Appolo Tankeh teach?
+- Who teaches CTEC 350.170?
+- What days does CTEC 345.170 meet?
+- What room is CTEC 435.170 in?
+- What time does CTEC 435.170 meet?
+- What is the email for Anthony Adedoyin?
+- What is Anthony Adedoyin's office?
+- List professors
+
+Available questions depend on the facts and rules loaded into the knowledge base.
+
+## Testing
+
+Run the Prolog test script from the project root:
+
+```bash
+python3 test_prolog.py
+```
+
+Check that the expected professors, courses, and schedule information are returned.
+
+## Project Goal
+
+The goal of this project is to demonstrate how structured data, logic-based knowledge representation, and a Python interface can work together to build an expert system that answers questions about professors and academic courses.
+
