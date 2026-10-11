@@ -6,12 +6,10 @@ file_path = "data/CTEC Fall 2026 Schedule - Share (2).xlsx"
 # Read schedule
 df = pd.read_excel(file_path)
 
-# Store all professors in a set (prevents duplicates)
 professors = set()
 
 with open("prolog/schedule.pl", "w") as output:
 
-    # Process schedule rows
     for _, row in df.iterrows():
 
         course = str(row["ID"]).strip()
@@ -22,7 +20,15 @@ with open("prolog/schedule.pl", "w") as output:
         begin_time = str(row["Begin"]).strip()
         end_time = str(row["End "]).strip()
 
-        # Save instructor from Excel
+        # Convert "Last, First" to "First Last"
+        if "," in instructor:
+
+            parts = [p.strip() for p in instructor.split(",")]
+
+            if len(parts) == 2:
+                instructor = f"{parts[1]} {parts[0]}"
+
+        # Ignore empty values
         if instructor and instructor.lower() != "nan":
             professors.add(instructor)
 
@@ -46,14 +52,13 @@ with open("prolog/schedule.pl", "w") as output:
             f'time("{course}","{begin_time}","{end_time}").\n'
         )
 
-    # Read professors from YAML
+    # Load professors from YAML
     with open("data/professors.yaml", "r") as yaml_file:
         yaml_data = yaml.safe_load(yaml_file)
 
     for prof in yaml_data["professors"]:
         professors.add(prof["name"])
 
-    # Write professor facts
     output.write("\n% Professors\n")
 
     for professor in sorted(professors):
@@ -61,4 +66,6 @@ with open("prolog/schedule.pl", "w") as output:
             f'professor("{professor}").\n'
         )
 
-print(f"Generated schedule.pl with {len(professors)} professors")
+print(
+    f"Generated schedule.pl with {len(professors)} professors"
+)

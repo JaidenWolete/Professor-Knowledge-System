@@ -4,10 +4,6 @@ file_path = "data/Sept1_28_Syllabus_COSC 369-Software Engineering- - Dr. Tankeh 
 
 doc = Document(file_path)
 
-full_text = "\n".join(
-    p.text for p in doc.paragraphs if p.text.strip()
-)
-
 with open("prolog/syllabus.pl", "w") as output:
 
     output.write(
@@ -18,7 +14,10 @@ with open("prolog/syllabus.pl", "w") as output:
         'instructor("COSC369","Dr. Appolo Tankeh").\n'
     )
 
-print("Generated prolog/syllabus.pl")
+    output.write(
+        'teaches("Dr. Appolo Tankeh","COSC369").\n'
+    )
 
+print("Generated prolog/syllabus.pl")
 
 
