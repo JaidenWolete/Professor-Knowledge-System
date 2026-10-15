@@ -207,7 +207,7 @@ The generated knowledge base depends on the accuracy and completeness of these s
 
 ## Author
 
-Developed as a COSC 369 Software Engineering project.
+Jaiden Wolete & Reuben Odedairo
 
 ## Repository
 
